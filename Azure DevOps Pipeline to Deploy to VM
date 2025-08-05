@@ -1,0 +1,124 @@
+Here is a basic step-by-step guide to set up an Azure DevOps Pipeline that builds and deploys code to an Azure VM (Linux/Windows) using Azure DevOps pipelines.
+
+✅ Goal
+Build a basic CI/CD pipeline in Azure DevOps
+
+Connect to Azure VM using SSH or WinRM
+
+Deploy an app or script to the VM
+
+🔧 Prerequisites
+Resource	Required
+Azure DevOps account	✅
+Azure VM (Linux/Windows)	✅
+Public IP of VM	✅
+SSH key (Linux) or WinRM setup (Windows)	✅
+Code repository in Azure Repos or GitHub	✅
+
+🧭 Step-by-Step: Azure DevOps Pipeline to Deploy to VM
+✅ Step 1: Create a Service Connection
+Go to Azure DevOps → Project → Project Settings → Service connections
+
+Click New Service Connection
+
+Choose:
+
+SSH for Linux VM
+
+WinRM for Windows VM
+
+Provide:
+
+VM IP
+
+Username
+
+Private key (Linux) or Password (Windows)
+
+✅ Step 2: Create a Basic YAML Pipeline
+Go to Pipelines → New Pipeline
+
+Select your Repo
+
+Choose "YAML"
+
+Use the sample YAML below
+
+📝 Sample YAML (Linux VM, SSH)
+yaml
+Copy
+Edit
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'MyLinuxVMConnection'   # Name of your SSH service connection
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: '**'
+    targetFolder: '/home/azureuser/myapp'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'MyLinuxVMConnection'
+    runOptions: 'inline'
+    inline: |
+      echo "Deploying app..."
+      cd /home/azureuser/myapp
+      ./deploy.sh  # Your custom script
+📝 Sample YAML (Windows VM, WinRM)
+yaml
+Copy
+Edit
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: CopyFilesOverWinRM@2
+  inputs:
+    winRMConnection: 'MyWinVMConnection'
+    SourcePath: '$(Build.SourcesDirectory)'
+    TargetPath: 'C:\\App\\'
+
+- task: PowerShellOnTargetMachines@3
+  inputs:
+    Machines: '1.2.3.4'
+    AdminUserName: 'azureuser'
+    AdminPassword: '$(VMPassword)' # use secret variable
+    ScriptPath: 'C:\\App\\install.ps1'
+✅ Step 3: Commit & Run Pipeline
+Commit the YAML file as azure-pipelines.yml in your repo.
+
+Azure DevOps will trigger the build.
+
+It will copy files and run the deploy script on your VM.
+
+🧪 Example Use Cases
+Use Case	Tool Used
+Deploy shell script	CopyFilesOverSSH + SSH@0
+Deploy web app to VM	Copy code + NGINX restart
+Run PowerShell script	WinRM + PowerShell task
+Restart service	systemctl restart or Restart-Service
+
+🔐 Tips
+Store VM credentials in Azure DevOps Library → Secure Variables
+
+Use approval gates for production deployments
+
+Monitor logs under Pipeline → Logs
+
+✅ Summary Table
+Step	Task	Tool/Command
+1	Create SSH/WinRM connection	Service Connection
+2	Add YAML to repo	azure-pipelines.yml
+3	Use Copy and SSH/PowerShell tasks	CopyFilesOverSSH, SSH, WinRM
+4	Monitor build	Azure DevOps Logs
+5	Secure credentials	Library → Variable Groups
+
