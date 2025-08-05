@@ -1,0 +1,157 @@
+Here’s a concrete guide to how Azure DevOps is used in DevOps/SRE roles, specifically tailored for 3.5+ years of experience, covering:
+
+✅ Real-time tasks
+
+🧰 Azure DevOps CLI usage
+
+💡 Use cases
+
+🎯 Interview Questions & Answers
+
+📌 Resume points
+
+✅ Real-Time Tasks Using Azure DevOps (3.5+ Years Experience)
+Task	Description
+Code Repository Management	Manage source code with Azure Repos (Git)
+CI/CD Pipelines	Automate build & deployment with Azure Pipelines
+Infrastructure as Code (IaC)	Use pipelines to deploy Terraform/ARM templates
+Release Management	Create approvals, gates, and environments
+Artifact Management	Store, version, and share build artifacts
+Secrets Management	Use Azure Key Vault integration
+Testing Automation	Run unit/integration tests in CI pipelines
+Monitoring & Alerts	Integrate with Azure Monitor or App Insights
+Multi-stage Pipelines	Use YAML to define dev, staging, and prod stages
+
+🧰 Common Azure DevOps CLI Commands
+bash
+Copy
+Edit
+# Login to Azure DevOps
+az devops login
+
+# Set default organization/project
+az devops configure --defaults organization=https://dev.azure.com/YourOrg project=YourProject
+
+# List pipelines
+az pipelines list
+
+# Run a pipeline
+az pipelines run --name "BuildPipeline"
+
+# View pipeline runs
+az pipelines runs list --pipeline-name "BuildPipeline"
+
+# Create variable group
+az pipelines variable-group create --name "SecretsGroup" --variables key1=value1 key2=value2
+💡 Azure DevOps Real-World Use Cases
+Use Case	Description
+Deploy Azure Infrastructure	Use Terraform/ARM templates in pipeline
+Deploy Web App to Azure VM/App Service	Automate via build + release pipelines
+Integrate with GitHub	Trigger pipeline on GitHub push/PR
+Store Docker images	Use Azure Container Registry + publish via pipeline
+Hybrid Cloud Deployments	Use self-hosted agents in on-prem/cloud mix
+Secret Injection	Secure access to Azure Key Vault during builds
+Canary/Blue-Green Deployment	Set up deployment slots and approval gates
+Testing	Integrate with Selenium, Postman, or API testing tools
+
+🎯 Top Azure DevOps Interview Q&A (SRE/DevOps 3.5+ Yrs)
+✅ Q1: What are the main components of Azure DevOps?
+A:
+
+Azure Repos (Git)
+
+Azure Pipelines (CI/CD)
+
+Azure Boards (Agile project tracking)
+
+Azure Test Plans
+
+Azure Artifacts
+
+✅ Q2: How do you set up a CI/CD pipeline in Azure DevOps?
+A:
+
+Connect Azure Repos/GitHub repo
+
+Define pipeline in YAML (azure-pipelines.yml)
+
+Configure build tasks (restore, build, test)
+
+Define release stages (dev, test, prod)
+
+Add approvals/gates where needed
+
+✅ Q3: What’s the difference between Classic and YAML pipelines?
+Classic Pipeline	YAML Pipeline
+UI-based	Code-defined
+Less reusable	Reusable templates
+Not version-controlled	Stored in repo with source code
+
+✅ Q4: What is a self-hosted agent?
+A:
+A custom machine (VM or physical) where Azure DevOps pipeline tasks run. Useful for installing custom tools or accessing private networks.
+
+✅ Q5: How do you secure secrets in Azure DevOps pipelines?
+A:
+
+Use Variable Groups (secret variables)
+
+Integrate with Azure Key Vault
+
+Reference secrets using $(SecretName)
+
+✅ Q6: How can you deploy infrastructure using Azure DevOps?
+A:
+Use IaC tools like:
+
+Terraform in pipeline:
+
+yaml
+Copy
+Edit
+- script: terraform init && terraform apply -auto-approve
+Or ARM/Bicep templates via az deployment commands
+
+✅ Q7: How do you trigger pipelines?
+A:
+
+On push, PR, or schedule using triggers in YAML
+
+yaml
+Copy
+Edit
+trigger:
+  branches:
+    include:
+      - main
+✅ Q8: How do you manage approvals and environments?
+A:
+
+Use Environments in release pipelines
+
+Add pre-deployment approvals
+
+Add checks like Azure Monitor or manual intervention
+
+✅ Q9: What is the purpose of Azure Artifacts?
+A:
+Host and manage private NuGet, npm, Maven, or Python packages, useful in enterprise CI/CD workflows.
+
+✅ Q10: How do you integrate testing in Azure DevOps?
+A:
+
+Add test tasks in build stage (e.g., dotnet test, pytest)
+
+Publish test results using PublishTestResults@2
+
+Use test plans for manual/exploratory testing
+
+📌 Azure DevOps Resume Points (3.5+ Yrs)
+Implemented CI/CD pipelines in Azure DevOps to automate application and infrastructure deployments.
+
+Integrated Azure Repos with YAML pipelines for Git-based deployments across dev, staging, and prod.
+
+Deployed Azure infrastructure using Terraform modules and Azure CLI tasks in pipelines.
+
+Configured pipeline approvals, gates, and secrets management using Azure Key Vault.
+
