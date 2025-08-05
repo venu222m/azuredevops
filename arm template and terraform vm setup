@@ -1,0 +1,202 @@
+Here is a complete example to set up a Build Pipeline in Azure DevOps using code from Azure Repos that deploys a VM using Terraform or ARM templates.
+
+🎯 GOAL
+Store Infrastructure-as-Code (Terraform or ARM) in Azure Repos
+
+Build + Deploy pipeline using Azure DevOps Pipelines
+
+Create a Virtual Machine (VM) in Azure
+
+🛠️ OPTION 1: Terraform-based Azure VM Setup via Azure DevOps Pipeline
+✅ Project Structure in Azure Repos
+text
+Copy
+Edit
+terraform-vm/
+├── main.tf
+├── variables.tf
+├── terraform.tfvars
+├── azure-pipelines.yml
+🔹 Step 1: Sample main.tf – Create Azure VM
+h
+Copy
+Edit
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-terraform-vm"
+  location = "East US"
+}
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = "vnet-demo"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azurerm_subnet" "subnet" {
+  name                 = "subnet-demo"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_network_interface" "nic" {
+  name                = "nic-demo"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "ipconfig"
+    subnet_id                     = azurerm_subnet.subnet.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "vm" {
+  name                = "vm-demo"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  size                = "Standard_B1s"
+  admin_username      = "azureuser"
+  network_interface_ids = [
+    azurerm_network_interface.nic.id,
+  ]
+  admin_password = "P@ssw0rd1234!"
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    name                 = "myosdisk"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+}
+🔹 Step 2: Azure DevOps Pipeline (azure-pipelines.yml)
+yaml
+Copy
+Edit
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+  ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+  ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+  ARM_TENANT_ID: $(ARM_TENANT_ID)
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: '1.5.7'
+
+- script: |
+    terraform init
+  displayName: 'Terraform Init'
+
+- script: |
+    terraform plan -out=tfplan
+  displayName: 'Terraform Plan'
+
+- script: |
+    terraform apply -auto-approve tfplan
+  displayName: 'Terraform Apply'
+🔐 Step 3: Create Service Principal and Set Pipeline Variables
+Run the below command from Azure Cloud Shell:
+
+bash
+Copy
+Edit
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<subscription-id>"
+Use the output to set these as Pipeline Variables (secret):
+
+Variable Name	Description
+ARM_CLIENT_ID	AppId
+ARM_CLIENT_SECRET	Password
+ARM_SUBSCRIPTION_ID	Subscription ID
+ARM_TENANT_ID	Tenant ID
+
+🛠️ OPTION 2: ARM Template-based VM Deployment (via az cli in pipeline)
+✅ ARM Template (azuredeploy.json)
+json
+Copy
+Edit
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": { "type": "string" },
+    "adminPassword": { "type": "securestring" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2021-07-01",
+      "name": "vm-arm-demo",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "hardwareProfile": { "vmSize": "Standard_B1s" },
+        "osProfile": {
+          "computerName": "vm-arm-demo",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2019-Datacenter",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": []
+        }
+      }
+    }
+  ]
+}
+✅ Azure Pipeline YAML for ARM
+yaml
+Copy
+Edit
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'MyAzureServiceConnection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az group create --name rg-arm-demo --location eastus
+
+      az deployment group create \
+        --resource-group rg-arm-demo \
+        --template-file azuredeploy.json \
+        --parameters adminUsername=azureuser adminPassword=P@ssw0rd1234!
+✅ Summary Table
+Step	Terraform	ARM Template
+1	Write .tf files	Create azuredeploy.json
+2	Add azure-pipelines.yml	Add azure-pipelines.yml
+3	Use TerraformInstaller@1	Use AzureCLI@2 task
+4	Configure service principal	Use Service Connection
+5	Run pipeline	Deploys VM
