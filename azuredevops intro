@@ -1,0 +1,135 @@
+Here's a step-by-step Azure DevOps learning guide tailored for DevOps Engineers (3+ years experience) — covering both theory and hands-on with pipelines, repos, deployments, and real-world scenarios.
+
+✅ What is Azure DevOps?
+Azure DevOps is a set of development tools and services for:
+
+Source code management (Repos)
+
+Continuous Integration/Delivery (Pipelines)
+
+Work tracking (Boards)
+
+Artifacts (packages)
+
+Testing (Test Plans)
+
+🧭 Azure DevOps Step-by-Step Learning Roadmap
+🧩 Phase 1: Understand Core Concepts
+Topic	Details
+✅ What is DevOps?	CI/CD, Infrastructure as Code, Agile methodology
+✅ Azure DevOps Overview	Services: Repos, Pipelines, Boards, Artifacts, Test Plans
+✅ Project Structure	Organization → Project → Repo/Pipeline/Board/etc.
+
+🧩 Phase 2: Set Up Azure DevOps Account
+Go to: https://dev.azure.com
+
+Sign in with Microsoft account
+
+Create a new Organization
+
+Create a Project
+
+🧩 Phase 3: Work with Azure Repos (Git)
+Create a Repo
+
+Clone it to local using Git CLI:
+
+bash
+Copy
+Edit
+git clone https://dev.azure.com/your-org/your-project/_git/your-repo
+Add files and push:
+
+bash
+Copy
+Edit
+git add .
+git commit -m "initial commit"
+git push origin main
+🔁 Learn Git commands: clone, branch, merge, pull request, revert
+
+🧩 Phase 4: Build Pipelines (CI)
+✅ Classic Pipeline (GUI):
+
+Go to Pipelines → Create Pipeline → Use Classic Editor
+
+Select Repo → Choose agent (e.g., Ubuntu)
+
+Add Tasks:
+
+Install dependencies
+
+Build (e.g., Maven, .NET, npm)
+
+Publish artifacts
+
+✅ YAML Pipeline (Code-based):
+
+yaml
+Copy
+Edit
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo "Building project"
+- script: dotnet build
+- script: dotnet test
+✅ Push azure-pipelines.yml to repo
+
+🧩 Phase 5: Release Pipelines (CD)
+Go to Releases
+
+Create a new release pipeline
+
+Add Artifact → from build pipeline
+
+Add Stages (e.g., Dev, QA, Prod)
+
+Add tasks: Copy files, Deploy to VM, AKS, App Service
+
+Enable approvals and gates
+
+🧩 Phase 6: Infrastructure as Code (IaC)
+✅ Integrate Terraform, ARM/Bicep, or Ansible:
+
+yaml
+Copy
+Edit
+steps:
+- script: terraform init
+- script: terraform plan
+- script: terraform apply -auto-approve
+🧩 Phase 7: Work Tracking with Boards
+Use Boards to manage Epics, Features, Stories, Bugs
+
+Use Sprints and Backlogs
+
+Track with Kanban boards
+
+🧩 Phase 8: Use Azure Artifacts
+Go to Artifacts
+
+Create a new feed
+
+Push packages: NuGet, npm, Maven, Python
+
+🧩 Phase 9: Security & Service Connections
+Create Service Connections for:
+
+Azure (ARM)
+
+GitHub, Docker Hub, etc.
+
+🔐 Role-based access: Contributors, Readers, Admins
+
+🎓 Final Phase: Real-Time Project Practice
+Scenario	Tools Involved
+Build & Deploy Java App on VM	Repos, Pipelines, SSH task, Maven
+Deploy Python App to Azure App Service	YAML pipeline, AzureWebApp task
+Terraform Infra Deployment	Terraform CLI + Azure CLI + Pipelines
+Helm Deploy to AKS	Helm, kubectl, Service Connection (AKS)
+CI/CD with Approval	Staged release pipeline with manual approvals
