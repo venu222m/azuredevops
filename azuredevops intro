@@ -133,3 +133,80 @@ Deploy Python App to Azure App Service	YAML pipeline, AzureWebApp task
 Terraform Infra Deployment	Terraform CLI + Azure CLI + Pipelines
 Helm Deploy to AKS	Helm, kubectl, Service Connection (AKS)
 CI/CD with Approval	Staged release pipeline with manual approvals
+------------------------------------------------------------------------------------------------------------------------------------------------------
+In Azure DevOps, there are five core components you should focus on — especially as a DevOps Engineer working on CI/CD pipelines, infrastructure automation, and cloud deployments.
+
+✅ Azure DevOps Core Components to Learn
+Component	Description	Key Use Cases / Concepts
+1. Azure Repos	Git-based source code repositories	- Version control for code, Terraform, ARM, scripts
+- Branching, PRs, code review
+2. Azure Pipelines	CI/CD pipelines for build and release automation	- Build/Test/Deploy using YAML or Classic UI
+- Multi-stage pipelines
+3. Azure Boards	Work tracking, task management, Agile boards	- Backlog, Epics, Features, User Stories, Sprints
+4. Azure Artifacts	Package management (NuGet, npm, Maven, etc.)	- Store and share build artifacts like .zip, .jar, .nupkg, etc.
+5. Azure Test Plans	Manual and exploratory testing platform	- Manual tests, test suites, test plans (less used in automation-heavy environments)
+
+🎯 As a DevOps Engineer — Focus on These in Depth:
+🔹 Azure Repos
+Clone/Pull/Push via Git
+
+Branching strategy (main/dev/release)
+
+Pull requests (PR) + code review process
+
+🔹 Azure Pipelines (Top Priority)
+YAML-based pipelines
+
+Multi-stage (Build + Release)
+
+Use Terraform, Ansible, Shell Script inside pipeline
+
+Pipeline Variables, Secret Variables
+
+Azure CLI / PowerShell tasks
+
+Service Connections (for Azure Resource Manager)
+
+Integration with Docker, Kubernetes, AKS, ACR
+
+🔹 Azure Artifacts
+Publishing and consuming build outputs
+
+Artifact sharing between stages
+
+🔹 Azure Boards (Basic Only)
+Track your tasks and defects
+
+Link commits/PRs to work items
+
+💡 Real-Time Examples for Practice
+Task	Tool Used	Example
+VM Deployment using Terraform	Repos + Pipelines	Code in repo, CI pipeline triggers Terraform apply
+App Build and Deploy to App Service	Repos + Pipelines	Node.js/Java app with CI/CD YAML pipeline
+Docker Image Push to ACR	Pipelines	Use Docker task + login to ACR
+Track project progress	Boards	Create epics > features > stories > tasks
+Store artifacts between stages	Artifacts	Upload WAR files or zip to share between build and release
+
+🧠 Tips for Learning
+Start with Pipelines YAML (must-know)
+
+Practice with Terraform or ARM templates
+
+Use Azure CLI task inside pipeline for cloud operations
+
+Learn how to connect Azure DevOps to Azure using Service Principal
+
+Keep one project repo for testing full end-to-end flow
+
+✅ Suggested Learning Path
+Setup Azure DevOps project
+
+Create Repo with Terraform or Web App code
+
+Write a multi-stage YAML Pipeline
+
+Add a Service Connection (SP)
+
+Deploy a VM or App Service
+
+Track work in Azure Boards
