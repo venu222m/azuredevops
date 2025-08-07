@@ -19,6 +19,103 @@ Topic	Details
 ✅ What is DevOps?	CI/CD, Infrastructure as Code, Agile methodology
 ✅ Azure DevOps Overview	Services: Repos, Pipelines, Boards, Artifacts, Test Plans
 ✅ Project Structure	Organization → Project → Repo/Pipeline/Board/etc.
+=================================================================next topics azure devops
+1. Overview
+Shows basic information about the project: name, description, visibility (public/private).
+
+🔧 DevOps Use: Mostly used during initial project setup or review.
+
+2. Teams
+Manages team definitions within a project.
+
+Each team can have its own boards, dashboards, and backlogs.
+
+🔧 DevOps Use:
+
+Add/remove members
+
+Assign roles (e.g., Reader, Contributor, Project Admin)
+
+3. Permissions
+Configure access control for users/groups (RBAC).
+
+Includes built-in groups: Project Admins, Contributors, Readers, etc.
+
+🔧 DevOps Use:
+
+Grant build/deploy permissions
+
+Secure repo branches, pipelines, or environment access
+
+4. Notifications
+Set email-based alerts for build failures, PRs, work item changes, etc.
+
+🔧 DevOps Use:
+
+Notify DevOps engineers on pipeline failures or deployment completions.
+
+5. Service Hooks
+Integrates Azure DevOps with external tools (Slack, Jenkins, Trello, etc.)
+
+🔧 DevOps Use:
+
+Send alerts to Slack/Teams on build or release events.
+
+Trigger third-party services on repo or pipeline actions.
+
+6. Dashboards
+Manage team dashboards for visualizing work progress, build status, etc.
+
+🔧 DevOps Use:
+
+Show CI/CD pipeline status
+
+Display work item burn-down, test coverage, deployment frequency
+
+📋 Boards
+7. Project Configuration
+Configure work item types, workflow states, and rules for Boards.
+
+🔧 DevOps Use:
+
+Customize your agile process (e.g., add “Ready for QA” state)
+
+8. Team Configuration
+Set default area paths, iterations (sprints), and backlog settings for a team.
+
+🔧 DevOps Use:
+
+Map specific pipelines to team sprints
+
+Assign work automatically based on iteration
+
+9. GitHub Connections
+Connect your GitHub repositories to Azure DevOps pipelines and boards.
+
+🔧 DevOps Use:
+
+Link PRs or commits to work items
+
+Trigger CI pipelines from GitHub
+
+🚀 Pipelines
+10. Agent Pools
+Manage pools of build/deployment agents (Microsoft-hosted or self-hosted).
+
+🔧 DevOps Use:
+
+Add your own agent (VM) to run Docker, Terraform, etc.
+
+Assign pipelines to specific agent pools
+
+11. Parallel Jobs
+Controls how many jobs can run at the same time (based on license).
+
+🔧 DevOps Use:
+
+Increase concurrency for faster pipeline runs
+
+Monitor job usage across the project
 
 🧩 Phase 2: Set Up Azure DevOps Account
 Go to: https://dev.azure.com
@@ -358,3 +455,106 @@ Repos	Git-based source code repo	Host IAC, app code, setup triggers
 Pipelines	CI/CD automation	Build, test, deploy with agents
 Test Plans	Manual/automated test management	Integrate automated test results
 Artifacts	Package & artifact storage	Store .zip, Docker, NuGet, etc. for deploys
+-----------------------------------------------------------------------------------------------next topis in azure devops
+🔹 Parallel Jobs
+Purpose: Shows how many builds/deployments can run simultaneously.
+
+Usage: Helps manage concurrency limits and optimize agent utilization.
+
+DevOps Use: Plan CI/CD load—e.g., if you have 1 job limit, only one pipeline can run at a time.
+
+⚙️ Settings
+Purpose: Global pipeline-related settings for your project.
+
+DevOps Use:
+
+Control default retention for pipelines
+
+Set job timeouts, maximum artifacts, etc.
+
+Adjust YAML pipeline settings
+
+📋 Test Management
+Purpose: Configure test plans, test environments, and related policies.
+
+DevOps Use:
+
+Map test runs from CI/CD to Azure DevOps test plans
+
+Manage manual/automated test workflows
+
+Define environments for manual testers
+
+🔗 Service Connections
+Purpose: Define secure connections to external services like Azure, AWS, Docker Hub, GitHub, etc.
+
+DevOps Use:
+
+Required for Terraform deployments to Azure
+
+Push Docker images to ACR/ECR
+
+Clone GitHub repos for pipeline builds
+
+✅ Examples:
+
+text
+Copy
+Edit
+Azure Resource Manager connection → for ARM or Terraform
+Docker Registry connection → for pushing images
+GitHub connection → for pulling code securely
+🏗️ XAML Build Services (Legacy)
+Purpose: Used to manage legacy XAML-based build definitions.
+
+DevOps Use: Rarely used in modern DevOps setups (YAML pipelines are preferred).
+
+💡 Ignore unless you're maintaining old .NET/XAML projects.
+
+📁 Repos
+🗂️ Repositories
+Purpose: Manage repo-level policies, permissions, branch protections, etc.
+
+DevOps Use:
+
+Set branch policies (e.g., allow only PR-based commits)
+
+Configure auto-merge and status checks
+
+Manage Git permissions for teams
+
+📦 Artifacts
+📦 Storage
+Purpose: Monitor and manage storage used by pipelines, artifacts, and packages.
+
+DevOps Use:
+
+Track disk space used by build artifacts
+
+Clean up old versions
+
+Plan artifact retention and cost management
+
+🧪 Test
+🧹 Retention
+Purpose: Set policies to retain or delete test results, pipelines, and artifacts over time.
+
+DevOps Use:
+
+Automatically delete old pipeline runs after 30 or 60 days
+
+Keep only latest test results to reduce storage
+
+Retain critical build results (like production deploys)
+
+✅ Summary Table
+Section	Description	DevOps Usage Example
+Parallel Jobs	Controls number of jobs that can run in parallel	Plan concurrency for CI/CD
+Settings	Global project settings for pipelines	Timeouts, artifact limits, etc.
+Test Management	Manage test plans and test environments	Link test runs to releases
+Service Connections	Secure access to external tools and clouds	Azure, Docker, GitHub integrations
+XAML Build Services	Legacy build system (obsolete)	Rarely used today
+Repositories	Git repo access and policies	Branch protections, PR rules
+Storage	View and manage storage for artifacts	Monitor space used by builds/packages
+Retention	Control how long builds/tests are kept	Auto-clean old data, keep production releases
+-----------------------------------------------------------
