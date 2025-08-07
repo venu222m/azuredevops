@@ -149,3 +149,140 @@ Windows agent setup steps
 How to run Docker, Terraform, Ansible on your agent
 
 Auto-scaling self-hosted agents (VMSS or Kubernetes)
+==========================================================
+To run Docker, Terraform, and Ansible on your self-hosted Azure DevOps agent, you must install and configure each tool on the machine where the agent is running.
+----------------------------------------------------------new concept
+
+Here's a complete guide for a Linux (Ubuntu-based) self-hosted agent VM.
+
+🧱 Prerequisite: Self-hosted Agent Already Running
+Make sure:
+
+Your Azure DevOps agent is installed and running (./run.sh or svc.sh start)
+
+You're using Ubuntu or compatible Linux distro
+
+You have sudo access
+
+🐳 1. Install Docker on Agent VM
+➤ Install Docker:
+bash
+Copy
+Edit
+sudo apt-get update
+sudo apt-get install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+# Add Docker’s GPG key:
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# Set up the repo:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker:
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# Allow agent user to use Docker:
+sudo usermod -aG docker $(whoami)
+
+# (Optional) Verify:
+docker --version
+Important: You must restart your shell or log out/in for Docker group access to work.
+
+🌍 2. Install Terraform
+➤ Install Terraform:
+bash
+Copy
+Edit
+# Download HashiCorp GPG
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+  gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+# Add official repo:
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+# Install Terraform
+sudo apt update && sudo apt install -y terraform
+
+# Verify
+terraform -version
+🧰 3. Install Ansible
+➤ Install Ansible:
+bash
+Copy
+Edit
+sudo apt update
+sudo apt install -y software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install -y ansible
+
+# Verify
+ansible --version
+🔁 4. Restart Agent After Installation
+bash
+Copy
+Edit
+# If using service
+sudo ./svc.sh restart
+
+# If running manually
+CTRL+C then ./run.sh again
+🧪 5. Sample Azure DevOps YAML Using Docker, Terraform, and Ansible
+➤ Sample azure-pipelines.yml:
+yaml
+Copy
+Edit
+trigger:
+- main
+
+pool:
+  name: my-selfhosted-pool
+
+steps:
+
+- script: |
+    echo "Running Terraform"
+    terraform version
+  displayName: 'Terraform Check'
+
+- script: |
+    echo "Running Ansible"
+    ansible --version
+  displayName: 'Ansible Check'
+
+- script: |
+    echo "Running Docker"
+    docker --version
+    docker run hello-world
+  displayName: 'Docker Test'
+✅ Troubleshooting Tips
+Issue	Fix
+docker: permission denied	Run sudo usermod -aG docker $(whoami) and reboot or re-login
+Terraform not found	Ensure terraform is installed and in PATH
+Ansible command not found	Run ansible --version manually on VM and check install
+Pipeline hangs or fails on run	Check agent logs in ~/myagent/_diag or run in foreground
+
+🚀 Bonus: Use Docker to Run Ansible or Terraform
+You can also use Docker containers to run Terraform/Ansible in isolation:
+
+yaml
+Copy
+Edit
+- script: |
+    docker run --rm -v $(pwd):/workspace -w /workspace hashicorp/terraform:light version
+  displayName: 'Run Terraform in Docker'
+
+- script: |
+    docker run --rm -v $(pwd):/workspace -w /workspace williamyeh/ansible:alpine3 ansible --version
+  displayName: 'Run Ansible in Docker'
