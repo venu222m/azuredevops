@@ -1,0 +1,151 @@
+Here is a detailed step-by-step guide for setting up a pipeline with your own self-hosted agent in Azure DevOps. This includes:
+
+Creating a pipeline
+
+Setting up your own self-hosted agent (Linux/Ubuntu example)
+
+Running the pipeline using the agent
+
+🔧 Prerequisites
+Azure DevOps account and project
+
+Git repo with sample code (can be public/private)
+
+Linux VM (Ubuntu) or Windows machine with internet access
+
+Azure DevOps PAT (Personal Access Token)
+
+✅ Step 1: Create an Agent Pool
+Go to Azure DevOps Portal → your Project
+
+Click on Project settings (bottom left)
+
+Under Pipelines, click Agent pools
+
+Click Add pool
+
+Name: my-selfhosted-pool
+
+Choose: Self-hosted
+
+Click Create
+
+✅ Step 2: Generate PAT (Personal Access Token)
+Click on your profile icon → Security
+
+Under Personal Access Tokens, click New Token
+
+Name: agent-token
+
+Organization: your Azure DevOps org
+
+Expiration: 90 days or more
+
+Scopes: Agent Pools (Read & Manage)
+
+Click Create → Copy the token immediately
+
+✅ Step 3: Download and Configure the Agent (Linux Example)
+On your Ubuntu VM, run the following:
+
+bash
+Copy
+Edit
+# 1. Create directory
+mkdir myagent && cd myagent
+
+# 2. Download the agent (get the latest URL from Azure DevOps)
+wget https://vstsagentpackage.azureedge.net/agent/3.236.1/vsts-agent-linux-x64-3.236.1.tar.gz
+
+# 3. Extract
+tar zxvf vsts-agent-linux-x64-3.236.1.tar.gz
+
+# 4. Install dependencies
+sudo apt-get update
+sudo apt-get install -y libcurl4 openssh-client libicu[0-9][0-9] jq
+
+# 5. Configure the agent
+./config.sh
+URL: https://dev.azure.com/your_org_name
+
+PAT: Paste your token
+
+Agent Pool: my-selfhosted-pool
+
+Agent Name: my-linux-agent
+
+Accept all defaults or customize if needed
+
+✅ Step 4: Start the Agent
+bash
+Copy
+Edit
+# Start agent manually (foreground)
+./run.sh
+
+# OR configure it as a service
+sudo ./svc.sh install
+sudo ./svc.sh start
+✅ Step 5: Create a Pipeline Using the Agent Pool
+In Azure DevOps:
+
+Go to Pipelines → Click New Pipeline
+
+Select your repo (e.g., GitHub or Azure Repos)
+
+Choose YAML
+
+Add below example YAML:
+
+yaml
+Copy
+Edit
+trigger:
+- main
+
+pool:
+  name: my-selfhosted-pool
+
+steps:
+- script: echo "Running on self-hosted agent!"
+  displayName: 'Test Self-Hosted Agent'
+
+- script: uname -a
+  displayName: 'Show OS Info'
+Save and Run
+
+✅ Step 6: Validate
+Your pipeline should pick the self-hosted agent
+
+Check logs: it will show the agent name you configured
+
+You can also view the agent status under Project Settings > Agent Pools > my-selfhosted-pool
+
+🧼 Optional: Install Agent as Service on Reboot (Linux)
+bash
+Copy
+Edit
+sudo ./svc.sh install
+sudo ./svc.sh start
+sudo systemctl enable vsts.agent.*
+✅ Bonus: Agent Logs & Status
+Logs: ~/myagent/_diag/
+
+Status: Check with ./svc.sh status
+
+Restart: ./svc.sh restart
+
+🔐 Security Tips
+Never expose your PAT or allow passwordless SSH access to agent VMs
+
+Use firewalls, NSGs, and strong authentication
+
+Revoke PATs if agent is compromised
+
+Let me know if you want:
+
+Windows agent setup steps
+
+How to run Docker, Terraform, Ansible on your agent
+
+Auto-scaling self-hosted agents (VMSS or Kubernetes)
