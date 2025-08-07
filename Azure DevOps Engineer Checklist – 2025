@@ -1,0 +1,127 @@
+ Azure DevOps Engineer Checklist – 2025 Edition
+🔹 1. Azure DevOps Services (Core CI/CD Tools)
+ Azure Repos – Git repo management (clone, commit, PRs, branch policies)
+
+ Azure Pipelines – YAML-based CI/CD for:
+
+App deployment to VMs, AKS, Azure App Service
+
+Docker builds and push to ACR
+
+ Azure Artifacts – Package management (NuGet, npm, Maven)
+
+ Service Connections – Connect to Azure, GitHub, Docker Hub
+
+📘 Example Task: Build a CI pipeline for a .NET app that builds, runs tests, and deploys to Azure App Service.
+
+🔹 2. Azure Infrastructure (Core Services)
+ Azure VMs – Provisioning, access control, extensions, automation
+
+ Virtual Network, NSGs, Load Balancer
+
+ Azure Storage – Blob, file share, and lifecycle rules
+
+ Azure Key Vault – Secure secrets, integrate with DevOps pipelines
+
+ Azure App Services / Web Apps
+
+📘 Example Task: Use ARM or Terraform to provision a VM, assign NSG, and upload an app via DevOps pipeline.
+
+🔹 3. Infrastructure as Code (IaC)
+ Terraform on Azure – Deploy VNets, VMs, AKS, NSGs, Key Vault
+
+ ARM Templates / Bicep (optional)
+
+ YAML templates in Azure Pipelines
+
+📘 Example Task: Automate creation of resource groups, VMs, and Key Vault using Terraform via a release pipeline.
+
+🔹 4. Containers & Kubernetes
+ Azure Kubernetes Service (AKS) – Cluster setup, scaling, RBAC
+
+ Helm – Charts for AKS deployments
+
+ Azure Container Registry (ACR) – Push/pull Docker images
+
+ Docker – Build, tag, run, push locally & via pipelines
+
+📘 Example Task: Deploy a containerized app to AKS using a YAML pipeline and Helm chart.
+
+🔹 5. Configuration Management
+ Ansible for Azure – Use azure.azcollection for provisioning
+
+ Azure Automation – Schedules, runbooks, PowerShell jobs
+
+ VM Extensions – Install software on provisioned VMs
+
+ Desired State Configuration (DSC) (optional)
+
+📘 Example Task: Run Ansible playbook from Azure DevOps agent to configure VMs (e.g., install Nginx).
+
+🔹 6. Monitoring & Logging
+ Azure Monitor – Metrics, alerts
+
+ Log Analytics Workspace
+
+ Application Insights – For web apps, APIs
+
+ Azure Alerts – Email, SMS, webhook actions
+
+ Container Insights for AKS
+
+📘 Example Task: Set alert rules for CPU > 80% and send to Teams channel via webhook.
+
+🔹 7. Security & Identity
+ Azure IAM – RBAC, policies
+
+ Managed Identity – Assign to VMs, AKS, App Services
+
+ Azure Key Vault Access Policies / RBAC
+
+ Conditional Access Policies (optional)
+
+📘 Example Task: Securely inject secrets from Key Vault to an Azure pipeline and restrict access by role.
+
+🔹 8. Source Control & GitHub Integration
+ GitHub Actions vs Azure Pipelines
+
+ Azure DevOps Repo → GitHub Integration
+
+ Branch policies, code reviews, PR approvals
+
+📘 Example Task: Use GitHub Actions to trigger a Terraform workflow that provisions Azure infrastructure.
+
+🔹 9. Release Pipelines (CD)
+ Multi-stage YAML vs Classic
+
+ Environment approvals
+
+ Deployment groups for VMs
+
+ CD to AKS, App Services, Function Apps
+
+📘 Example Task: Create a release pipeline with manual approval to deploy to UAT and Production.
+
+🔹 10. Automation & Scripting
+ Azure CLI
+
+ Azure PowerShell
+
+ Bash / PowerShell scripting in DevOps Pipelines
+
+ Scheduled pipeline triggers
+
+📘 Example Task: Schedule a nightly job to clean unused resources with CLI.
+
+📘 Weekly Learning Plan – 4 Week Sample
+Week	Focus	Tools/Services
+1	Azure DevOps Services, Git, Pipelines	Repos, Pipelines, YAML, GitHub
+2	Infra Automation	Terraform, Azure CLI, ARM, Key Vault
+3	Containers & Monitoring	AKS, ACR, Helm, Monitor, Alerts
+4	Release Mgmt & Security	CD Pipelines, IAM, Managed Identity, Ansible
+
+🎯 Must-Know Azure Certifications (Bonus)
+Cert Name	For Role
+AZ-104: Azure Administrator Associate	Infra + Ops base knowledge
+AZ-400: Azure DevOps Engineer Expert	DevOps engineer – full CI/CD automation
+AZ-305: Azure Solutions Architect Expert	Optional – infra design & cost control
