@@ -557,4 +557,87 @@ XAML Build Services	Legacy build system (obsolete)	Rarely used today
 Repositories	Git repo access and policies	Branch protections, PR rules
 Storage	View and manage storage for artifacts	Monitor space used by builds/packages
 Retention	Control how long builds/tests are kept	Auto-clean old data, keep production releases
------------------------------------------------------------
+-----------------------------------------------------------azure next topcis
+Explanation
+📌 1. Preview Features
+Purpose: Enable or disable experimental or new UI features before they are generally available.
+
+Usage: Try out new Azure DevOps functionalities early.
+
+🔧 DevOps Use: Can test features like enhanced pipelines UI, updated editor, etc.
+
+👤 2. Profile
+Purpose: View or edit your user profile (name, email, contact).
+
+Usage: Helps identify users in Boards, PRs, or pipeline triggers.
+
+🔧 DevOps Use: No direct impact, but useful for team visibility and mentions.
+
+🌍 3. Time and Locale
+Purpose: Set your timezone, language, and regional format.
+
+Usage: Affects how dates and times appear in pipelines, boards, etc.
+
+🔧 DevOps Use: Ensures logs, builds, and timestamps align with your working hours.
+
+🔒 4. Permissions
+Purpose: View what permissions your user has within a project or organization.
+
+Usage: Helpful for understanding access issues (e.g., unable to run a pipeline).
+
+🔧 DevOps Use: See if you can manage repos, pipelines, boards, environments, etc.
+
+🔔 5. Notifications
+Purpose: Configure how and when Azure DevOps sends you alerts (email or via service hooks).
+
+Usage: Notify on PRs, build failures, work item assignments, etc.
+
+🔧 DevOps Use:
+
+Get notified if a pipeline fails
+
+Be alerted when a reviewer completes a PR
+
+🎨 6. Theme
+Purpose: Switch between Light, Dark, or High Contrast themes.
+
+Usage: User preference only.
+
+🔧 DevOps Use: No impact on functionality, just visual comfort.
+
+📊 7. Usage
+Purpose: Shows recent activity related to your account, pipeline usage, etc.
+
+Usage: Helpful to understand what you've been doing in Azure DevOps.
+
+🔧 DevOps Use: Limited direct use, mostly informational.
+
+🔑 8. Personal Access Tokens (PAT)
+Purpose: Generate secure tokens to authenticate to Azure DevOps REST APIs or CLI.
+
+Usage:
+
+Run agent setup
+
+Use with Git clone, Azure CLI, Terraform, etc.
+
+🔧 DevOps Use:
+
+Required to configure self-hosted agents
+
+Needed for external tools (like GitHub Actions, Terraform) to access Azure DevOps
+
+✅ Important: Always set expiration dates and minimal scopes for PATs.
+
+🔐 9. SSH Public Keys
+Purpose: Add SSH keys for secure Git operations (instead of HTTPS).
+
+Usage: Used for Git clone/push via SSH.
+
+🔧 DevOps Use:
+
+Developers and DevOps engineers use this for secure Git operations in pipelines or local systems
+
+Useful when integrating with private repos
+
+
