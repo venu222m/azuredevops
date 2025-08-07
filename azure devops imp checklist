@@ -1,0 +1,88 @@
+Azure DevOps – Key Areas for DevOps Engineer Role
+✅ 1. Pipelines (CI/CD) 🔥
+Why Important: Core of automation in DevOps – build, test, deploy.
+
+Azure Pipelines: Learn YAML vs Classic UI pipelines.
+
+Build Pipelines: Automate code build + test.
+
+📘 Example: Compile a .NET app, run unit tests.
+
+Release Pipelines: Deploy to dev/test/prod environments.
+
+📘 Example: Deploy container to AKS or VM using ARM/Terraform.
+
+✅ 2. Agent Pools
+Why Important: Custom agents required for Terraform, Ansible, Docker, etc.
+
+Understand Hosted vs Self-Hosted agents.
+
+📘 Example: Add self-hosted agent with Docker, Terraform installed.
+
+✅ 3. Service Connections
+Why Important: Required to connect pipelines to Azure, AWS, GitHub, Docker Hub, etc.
+
+📘 Example: Create a service connection for Azure subscription to deploy ARM/Bicep/Terraform.
+
+👤 Project Settings – Must Know
+✅ 4. Repositories
+Why Important: Stores your code and pipeline definitions.
+
+Understand Git basics, branching, pull requests.
+
+📘 Example: Use Azure Repo Git for app + infra-as-code (Terraform) together.
+
+✅ 5. Artifacts (Storage)
+Why Important: Used for storing build outputs (.zip, .jar, Docker images).
+
+📘 Example: Store a .NET package after build and use it in deployment.
+
+✅ 6. Parallel Jobs
+Why Important: To run multiple pipeline stages/jobs in parallel (paid feature after 1 free job).
+
+📘 Example: Run unit tests + security scan at same time.
+
+🔐 Security & Integration
+✅ 7. Permissions (both User & Project level)
+Why Important: Manage access to pipelines, repos, environments.
+
+📘 Example: Give access only to QA team to deploy to QA environment.
+
+✅ 8. Service Hooks
+Why Important: Automate actions between Azure DevOps and tools like Slack, Jira, Teams.
+
+📘 Example: Send a message to MS Teams when deployment fails.
+
+✅ 9. Personal Access Tokens (PATs)
+Why Important: Used to authenticate CLI, scripts, or external tools.
+
+📘 Example: Use PAT to trigger a pipeline from external Jenkins job.
+
+📈 Monitoring & Testing
+✅ 10. Test Management
+Why Important: Track manual & automated test cases in DevOps.
+
+📘 Example: Link automated Selenium tests from Azure Pipelines.
+
+✅ 11. Retention
+Why Important: Manage storage costs by setting retention policies on builds, logs, and artifacts.
+
+⚙️ User Profile Settings (for daily use)
+Notifications: Setup alerts on pipeline status.
+
+SSH Public Keys: Connect to Git repo securely.
+
+Theme/Usage: Optional, but know where it is.
+
+📝 Summary Table
+Area	Importance	Focus Topics	Tools/Examples
+Pipelines	⭐⭐⭐⭐⭐ (Core)	YAML, CI/CD stages	Docker, Terraform, App deploy
+Agent Pools	⭐⭐⭐⭐	Self-hosted setup	Docker/Ansible installed agent
+Repos	⭐⭐⭐⭐	Git, Branching, PRs	Infra + app code in repo
+Service Connections	⭐⭐⭐⭐	Azure/AWS authentication	ARM, Terraform, ACR push
+Artifacts	⭐⭐⭐	Store packages, images	Build .zip, deploy with release
+Test Management	⭐⭐⭐	Test Plans, Suites, Automation	Selenium/Unit tests integration
+Personal Tokens	⭐⭐⭐	CLI/Scripts access	Trigger pipelines via scripts
+Permissions	⭐⭐⭐	RBAC for DevOps workflows	Project level control
+Service Hooks	⭐⭐	Notifications to 3rd-party tools	Slack, Jira, Teams integration
+Retention	⭐⭐	Cost control	Build retention policy
