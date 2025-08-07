@@ -1,0 +1,93 @@
+Here’s a clear explanation of the difference between a Build Pipeline and a Release Pipeline in Azure DevOps, with real-world DevOps context:
+
+🔧 1. What is a Build Pipeline?
+Build Pipeline (also called CI Pipeline):
+
+It compiles, builds, packages, and tests your source code.
+
+Main goal: convert code into artifacts (e.g., .jar, .zip, .docker image, etc.)
+
+Common tools used: MSBuild, Maven, Gradle, Docker, etc.
+
+📌 Example:
+You push code to GitHub or Azure Repos → Azure DevOps triggers a build pipeline → It compiles the code, runs unit tests, and creates a .jar file → Publishes it as an artifact.
+
+🧱 Typical Steps in a Build Pipeline:
+yaml
+Copy
+Edit
+- Checkout code
+- Install dependencies
+- Compile/build code
+- Run unit tests
+- Publish build artifact (e.g., app.zip)
+🚀 2. What is a Release Pipeline?
+Release Pipeline (also called CD Pipeline):
+
+It deploys the artifacts (from the build pipeline) to various environments: Dev, QA, Staging, Production, etc.
+
+You can add manual approvals, gates, and deployment strategies (blue/green, canary).
+
+It can include infrastructure steps, Ansible/Terraform, or Kubernetes deploys.
+
+📌 Example:
+Build pipeline produces webapp.zip → Release pipeline picks that artifact → Deploys to a VM or App Service → Promotes to staging → After approval, deploys to production.
+
+🧱 Typical Steps in a Release Pipeline:
+diff
+Copy
+Edit
+- Download build artifact
+- Deploy to Dev environment
+- Run integration tests
+- Deploy to Staging (with approval)
+- Deploy to Production (after approval)
+🔄 Relationship Between Build and Release Pipelines
+Build Pipeline (CI)	Release Pipeline (CD)
+Builds the application	Deploys the application
+Triggered by code commits	Triggered by successful builds
+Outputs artifacts (e.g., .jar, .zip)	Takes artifacts and deploys to environments
+Focuses on code quality/testing	Focuses on delivery and infrastructure
+
+🧩 Visualization
+text
+Copy
+Edit
+               Code Commit (Git)
+                       ↓
+               [Build Pipeline]
+        (Compile, Test, Package, Artifact)
+                       ↓
+              Artifact is Stored
+                       ↓
+              [Release Pipeline]
+    (Deploy to Dev → QA → Staging → Prod)
+🧪 Real-World Example: Docker App
+Build Pipeline:
+
+Clone repo
+
+Build Docker image
+
+Push to ACR (Azure Container Registry)
+
+Publish artifact (like image tag or Helm chart)
+
+Release Pipeline:
+
+Pull Docker image from ACR
+
+Deploy to AKS (Kubernetes)
+
+Run post-deploy smoke tests
+
+Send Slack/Email notification
+
+✅ Summary Table
+Feature	Build Pipeline (CI)	Release Pipeline (CD)
+Goal	Build & test code	Deploy artifacts to environments
+Trigger	Code commit, PR	Build completion or manual
+Output	Artifacts (e.g., .jar, Docker img)	Deployments
+Environments	Typically N/A	Dev, QA, Staging, Production
+Common tools	Maven, Gradle, Docker	Terraform, Ansible, Azure CLI, Helm
+Manual Approvals	Rare	Common before Prod
