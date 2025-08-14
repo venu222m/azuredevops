@@ -1,0 +1,31 @@
+create that service connection in Azure DevOps first.
+
+Here’s the step-by-step to create it:
+
+1. Go to Project Settings
+
+In your Azure DevOps project, scroll down to the bottom-left corner.
+
+Click ⚙ Project Settings.
+
+2. Create a New Service Connection
+
+In Pipelines → Service connections, click New service connection.
+
+From the list, choose Docker Registry.
+
+In the popup:
+
+Registry type: Select Docker Hub.
+
+Docker ID: Your Docker Hub username.
+
+Password or access token:
+
+Either your Docker Hub password, or better — create a Docker Hub access token and use it here.
+
+Service connection name: Example — dockerHubConnection.
+
+Tick Grant access permission to all pipelines.
+
+Click Verify and save.
