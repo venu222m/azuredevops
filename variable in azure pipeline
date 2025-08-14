@@ -1,1 +1,33 @@
 
+New variable form for your Docker build & push pipeline authentication:
+
+You need to create three secure variables in your Azure DevOps pipeline, because your YAML uses:
+
+$(AZURE_CLIENT_ID)
+
+$(AZURE_CLIENT_SECRET)
+
+$(AZURE_TENANT_ID)
+
+Step-by-step
+
+Name → Variable name (exactly as in YAML):
+
+AZURE_CLIENT_ID → value = the appId from your Service Principal
+
+AZURE_CLIENT_SECRET → value = the password from your Service Principal
+
+AZURE_TENANT_ID → value = the tenant from your Service Principal
+
+Value → The actual sensitive value from the SPN creation output.
+
+Check ✅ Keep this value secret for sensitive variables (CLIENT_SECRET especially).
+
+Save the variable.
+
+Example:
+
+Name	Value	Keep secret?
+AZURE_CLIENT_ID	xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx	❌ (can keep unsecret)
+AZURE_CLIENT_SECRET	xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx	✅
+AZURE_TENANT_ID	xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx	❌
