@@ -1,0 +1,101 @@
+Step-by-Step: Authenticate ACR with Azure DevOps
+1️⃣ Go to Azure DevOps
+
+Open your Azure DevOps project.
+
+Navigate to:
+Project Settings → Service connections → New service connection.
+
+2️⃣ Choose Docker Registry
+
+In the “New service connection” menu:
+
+Select Docker Registry.
+
+Click Next.
+
+3️⃣ Configure Service Connection
+
+Registry type → Azure Container Registry.
+
+Authentication method → You have two options:
+
+Option A — Service principal (automatic)
+
+(Recommended if your Azure DevOps account has Owner/Contributor rights in the subscription)
+
+Sign in with your Azure account.
+
+Select:
+
+Azure subscription (the same where myacrregistry4915 is created).
+
+Registry name → myacrregistry4915.
+
+Azure DevOps will auto-create a Service Principal.
+
+Option B — Service principal (manual)
+
+(If you can’t use automatic creation)
+
+First, create Service Principal in Azure CLI:
+
+ACR_ID=$(az acr show --name myacrregistry4915 --query id --output tsv)
+az ad sp create-for-rbac --name sp-acr-devops --scopes $ACR_ID --role AcrPush
+
+
+Copy appId (Client ID), password (Client Secret), tenant (Tenant ID).
+
+Fill in:
+
+Docker Registry: https://myacrregistry4915.azurecr.io
+
+Service principal ID: appId
+
+Service principal key: password
+
+Tenant ID: tenant
+
+4️⃣ Name and Save Connection
+
+Name it: ACR-ServiceConnection.
+
+Check Grant access permission to all pipelines.
+
+Click Verify and Save — should show a green check ✅.
+
+5️⃣ Use in Pipeline
+
+Example Azure Pipelines YAML:
+
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  imageName: 'myapp'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Docker@2
+  displayName: Build and Push to ACR
+  inputs:
+    containerRegistry: 'ACR-ServiceConnection'  # Your service connection name
+    repository: '$(imageName)'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest
+
+
+✅ After this, when the pipeline runs:
+
+It will log in to ACR automatically using the service principal.
+
+Build the Docker image.
+
+Push it to myacrregistry4915.azurecr.io.
